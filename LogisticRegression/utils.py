@@ -39,3 +39,10 @@ def load_info(dir):
 	type_size = len(type_file.readlines())
 
 	return feature_size, type_size
+
+def get_none_id(type_filename):
+	with open(type_filename) as type_file:
+		for line in type_file:
+			ls = line.strip().split()
+			if ls[0] == "None":
+				return int(ls[1])

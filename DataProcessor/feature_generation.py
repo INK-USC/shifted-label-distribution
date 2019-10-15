@@ -6,6 +6,8 @@ import shutil
 from multiprocessing import Process, Lock
 from nlp_parse import parse
 from ner_feature import pipeline, filter, pipeline_test
+from pruning_heuristics import prune
+from statistic import supertype
 
 def get_number(filename):
     with open(filename) as f:
@@ -75,9 +77,30 @@ if __name__ == "__main__":
     multi_process_parse(raw_test_json, test_json, False, 1)
     print 'Test set parsing done'
 
+    print 'Start em feature extraction'
+    pipeline(train_json, indir + '/brown', outdir_em, requireEmType=requireEmType, isEntityMention=True)
+    filter(outdir_em+'/feature.map', outdir_em+'/train_x.txt', outdir_em+'/feature.txt', outdir_em+'/train_x_new.txt')
+    pipeline_test(test_json, indir + '/brown', outdir_em+'/feature.txt',outdir_em+'/type.txt', outdir_em, requireEmType=requireEmType, isEntityMention=True)
+    pipeline_test(dev_json, indir + '/brown', outdir_em + '/feature.txt', outdir_em + '/type.txt', outdir_em + '/dev',
+                  requireEmType=requireEmType, isEntityMention=True)
+    move_dev_files(outdir_em)
+    supertype(outdir_em)
+
+    print 'Start em training and test data generation'
+    feature_number = get_number(outdir_em + '/feature.txt')
+    type_number = get_number(outdir_em + '/type.txt')
+    prune(outdir_em, outdir_em, 'no', feature_number, type_number, neg_label_weight=float(sys.argv[4]),
+          isRelationMention=False, emDir='')
+
     print 'Start rm feature extraction'
     pipeline(train_json, indir + '/brown', outdir, requireEmType=requireEmType, isEntityMention=False)
     filter(outdir+'/feature.map', outdir+'/train_x.txt', outdir+'/feature.txt', outdir+'/train_x_new.txt')
     pipeline_test(test_json, indir + '/brown', outdir+'/feature.txt', outdir+'/type.txt', outdir, requireEmType=requireEmType, isEntityMention=False)
     pipeline_test(dev_json, indir + '/brown', outdir+'/feature.txt', outdir+'/type.txt', outdir+'/dev', requireEmType=requireEmType, isEntityMention=False)
     move_dev_files(outdir)
+
+    print 'Start rm training and test data generation'
+    feature_number = get_number(outdir + '/feature.txt')
+    type_number = get_number(outdir + '/type.txt')
+    prune(outdir, outdir, 'no', feature_number, type_number, neg_label_weight=float(sys.argv[4]), isRelationMention=True, emDir=outdir_em)
+
