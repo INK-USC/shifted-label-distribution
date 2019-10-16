@@ -1,10 +1,14 @@
 .idea
 data/
+!data/source/*.py
+!data/*.md
 dumped_models/
 *.DS_Store
 *.o
 *.zip
+*.json
 dumped_model/
+CoType/eigen-3.2.5/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
