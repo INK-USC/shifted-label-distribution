@@ -20,8 +20,6 @@ def convert_data(in_filename, out_filename):
 		sent = ' '.join(instance['token'])
 		em1 = ' '.join(instance['token'][instance['obj_start']:instance['obj_end'] + 1])
 		em2 = ' '.join(instance['token'][instance['subj_start']:instance['subj_end'] + 1])
-		if instance['relation'] not in rel_list:
-			rel_list.append(instance['relation'])
 		if sent in sentDict:
 			sentDict[sent]['relationMentions'].append({"em1Text": em1, "em2Text": em2, "label": instance['relation']})
 			if em1 not in sentDict[sent]['entityDict']:
@@ -42,16 +40,11 @@ def convert_data(in_filename, out_filename):
 				sentDict[sent]['entityDict'].append(em2)
 		else:
 			s = {
-				"tokens": instance['token'],
-				"pos": instance['stanford_pos'],
 				"articleId": instance['docid'].replace('_', '-'),
 				"relationMentions": [{"em1Text": em1, "em2Text": em2,
-									  "labels": [instance['relation']],
-									  "numOfEMBetween": 0}],
-				"entityMentions": [
-					{"start": instance['obj_start'], "end": instance['obj_end'] + 1, "labels": instance['obj_type']},
-					{"start": instance['subj_start'], "end": instance['subj_end'] + 1,
-					 "labels": instance['subj_type']}],
+									  "label": instance['relation']}],
+				"entityMentions": [{"text": em1, "start": instance['obj_start'], "label": instance['obj_type']},
+								   {"text": em2, "start": instance['subj_start'], "label": instance['subj_type']}],
 				"sentId": cnt,
 				"entityDict": [em1, em2]
 			}
@@ -78,7 +71,10 @@ if __name__ == '__main__':
 
 	for split in ['train', 'dev', 'test']:
 		in_filename = os.path.join(opt['in_dir'], split + '.json')
-		out_filename = os.path.join(opt['out_dir'], split + '.json')
+		if split == 'train':
+			out_filename = os.path.join(opt['out_dir'], 'train_split.json')
+		else:
+			out_filename = os.path.join(opt['out_dir'], split + '.json')
 		convert_data(in_filename, out_filename)
 
 		# relation2id.json is needed in neural models
@@ -87,6 +83,3 @@ if __name__ == '__main__':
 			d = {item: idx for idx, item in enumerate(rel_list)}
 			with open(rel2id_outfile, 'w') as fout:
 				json.dump(d, fout)
-
-
-# process_all(args.conll_dir, args.json_dir)

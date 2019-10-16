@@ -46,7 +46,7 @@ class EMTypeFeature(AbstractFeature):
                 # features.append('EM1_TYPE_%s' % em.labels)
             if em.start == mention.em2Start and em.end == mention.em2End:
                 features.append('EM2_TYPE_%s' % sentence.ner[em.start])
-                # features.append('EM1_TYPE_%s' % em.labels)
+                # features.append('EM2_TYPE_%s' % em.labels)
 
 class SpecialPatternFeature(AbstractFeature):
 

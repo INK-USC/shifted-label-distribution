@@ -6,25 +6,18 @@ Code for EMNLP 2019 paper "Looking Beyond Label Noise: Shifted Label Distributio
 conda create --name shifted
 conda activate shifted
 conda install pytorch=0.3.1
-deactivate shifted
+source deactivate
 
 conda create --name shifted-neural
 conda activate shifted-neural
 conda install cudnn=7.1.2 pytorch=0.4.0 tqdm
-deactivate shifted-neural
+source deactivate
 ```
 
-### Pre-processing
+### Download and Pre-processing
 
-```
-conda activate shifted
-sh ./brown_clustering.sh KBP
-sh ./feature_generation.sh KBP
-python3 DataProcessor/gen_data_neural.py --in_dir ./data/intermediate/KBP/rm --out_dir ./data/neural/KBP
-```
-Replace 'KBP' with 'NYT' to generate features for NYT
+Please check data download and pre-processing instructions in `/data`. Also, check README in `data/neural/vocab` to download our processed word embeddings and word2id file.
 
-Also, download our pruned word embeddings and word2id file, and place in `./data/neural/vocab`
 
 ### Feature-based Models
 

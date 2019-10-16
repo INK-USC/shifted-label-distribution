@@ -20,7 +20,7 @@ class NLPParser(object):
         the Staford Core NLP parser
     """
     def __init__(self):
-        self.parser = CoreNLPClient(default_annotators=['ssplit', 'tokenize', 'pos'], server="http://localhost:9000")
+        self.parser = CoreNLPClient(default_annotators=['ssplit', 'tokenize', 'pos', 'ner'], server="http://localhost:9000")
 
         #self.parser = POSTagger(corenlp_dir+'/models/english-bidirectional-distsim.tagger', corenlp_dir+'/stanford-postagger.jar')
     def parse(self, sent):
