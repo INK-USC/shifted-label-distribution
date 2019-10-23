@@ -34,7 +34,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 # load the config of trained model
 model_file = os.path.join(args_new.save_dir, args_new.info)
-params = torch.load(model_file + '_1')
+params = torch.load(model_file + '_1.pkl')
 args = params['config']
 print(args)
 

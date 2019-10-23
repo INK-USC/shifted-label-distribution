@@ -9,12 +9,10 @@ import torch.utils.data
 import torch.nn as nn
 import numpy as np
 from tqdm import tqdm
-import pickle
 import json
 import math
 import random
 import os
-import sys
 
 # vocab
 PAD_TOKEN = '<PAD>'
@@ -43,24 +41,6 @@ def log2posprob(log_prob):
 	log_prob = log_prob[1:]
 	exps = np.exp(log_prob)
 	return exps / np.sum(exps)
-
-def print_trans_mat(trans_mat, rel2id):
-	rel_labels = [''] * len(rel2id)
-	for label, id in rel2id.items():
-		rel_labels[id] = label
-	print('')
-	print('Type\t' + '\t'.join(rel_labels))
-	for label_id in range(len(rel2id)):
-		val_list = [str(val) for val in trans_mat[label_id]]
-		print(rel_labels[label_id] + '\t' + '\t'.join(val_list))
-	print('')
-
-def avg_mat(mat_list):
-	sum_mat = np.zeros(mat_list[0].shape, dtype=np.float32)
-	for mat in mat_list:
-		sum_mat += mat
-	sum_mat /= len(mat_list)
-	return sum_mat
 
 def load_rel2id(fname):
 	with open(fname, 'r') as f:
@@ -138,11 +118,6 @@ class Dataset(object):
 			rel_cnt[rel] += 1
 			data.append((tokens, pos, ner, subj_positions, obj_positions, relation))
 			labels.append(relation)
-
-		# for tk in not_existed:
-		# 	if len(tk) > 3 and (tk[:3] == 'OBJ' or tk[:3] == 'SUB'):
-		# 		print(tk, not_existed[tk])
-		# exit()
 
 		datasize = len(data)
 		self.datasize = datasize
@@ -226,18 +201,6 @@ def map_to_ids(tokens, vocab):
 		ids = [vocab[t] if t in vocab else UNK_ID for t in tokens]
 		return ids
 
-# def map_to_ids(tokens, vocab):
-# 	ids = [map_one_id(t, vocab) for t in tokens]
-# 	return ids
-#
-# def map_one_id(token, vocab):
-# 	if token not in vocab:
-# 		if token not in not_existed:
-# 			not_existed[token] = 0
-# 		not_existed[token] += 1
-# 		return UNK_ID
-# 	return vocab[token]
-
 def get_positions(start_idx, end_idx, length):
 		""" Get subj/obj relative position sequence. """
 		return list(range(-start_idx, 0)) + [0]*(end_idx - start_idx + 1) + \
@@ -301,21 +264,3 @@ def calcInd(batch_probs):
 	# output: B
 	_, ind = torch.max(batch_probs, 1)
 	return ind
-
-if __name__ == '__main__':
-	'''
-	for test
-	'''
-	device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-	with open('./data/vocab/vocab.pkl', 'rb') as f:
-		vocab = pickle.load(f)
-	word2id = {}
-	for idx, word in enumerate(vocab):
-		word2id[word] = idx
-	args = {
-		'batch_size': 4,
-		'lower': False
-	}
-	dset = Dataset('dev', args, word2id, device)
-	for idx, batch in enumerate(dset.batched_data):
-		print(batch)

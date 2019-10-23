@@ -65,10 +65,6 @@ def train(args):
 	logging.info('Max Dev F1: %.4f' % max_dev_f1)
 	test_p, test_r, test_f1 = test_result_on_max_dev_f1
 	logging.info('Test P, R, F1 on best epoch: {:.4f}, {:.4f}, {:.4f}'.format(test_p, test_r, test_f1))
-	# csv_file.write('{:.1f}\t{:.1f}\t{:.1f}\t{:.6f}\t{:.6f}\t{:.6f}\t{:.6f}\n'.format(
-	# 	args.in_drop, args.intra_drop, args.out_drop, max_dev_f1, test_p, test_r, test_f1
-	# ))
-	# csv_file.flush()
 	logging.info('\n')
 
 	return max_dev_f1, test_result_on_max_dev_f1
@@ -111,8 +107,6 @@ if __name__ == '__main__':
 	parser.add_argument('--lr', type=float, default=1.0, help='Applies to SGD and Adagrad.')
 	parser.add_argument('--lr_decay', type=float, default=0.9)
 	parser.add_argument('--num_epoch', type=int, default=30)
-
-	# parser.add_argument('--cudaid', type=int, default=0)
 	parser.add_argument('--max_grad_norm', type=float, default=5.0, help='Gradient clipping.')
 
 	# Optimization - Dropout
@@ -124,11 +118,7 @@ if __name__ == '__main__':
 	# Other options
 	parser.add_argument('--seed', type=int, default=7698)
 	parser.add_argument('--repeat', type=int, default=5, help='Train the model for multiple times.')
-	# parser.add_argument('--log_step', type=int, default=20, help='Print log every k steps.')
-	# parser.add_argument('--log', type=str, default='log', help='Write training log to file.')
-	# parser.add_argument('--save_epoch', type=int, default=5, help='Save model checkpoints every k epochs.')
 	parser.add_argument('--save_dir', type=str, default='./dumped_models', help='Root dir for saving models.')
-	# parser.add_argument('--id', type=str, default='00', help='Model ID under which to save models.')
 	parser.add_argument('--info', type=str, default='KBP_default', help='Optional info for the experiment.')
 
 	args = parser.parse_args()

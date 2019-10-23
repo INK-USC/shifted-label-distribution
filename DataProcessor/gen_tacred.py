@@ -50,6 +50,8 @@ def convert_data(in_filename, out_filename):
 			}
 			cnt += 1
 			sentDict[sent] = s
+			if not instance['relation'] in rel_list:
+				rel_list.append(instance['relation'])
 	with open(out_filename, 'w') as fout:
 		for e in sentDict:
 			sentDict[e].pop('entityDict')
@@ -80,6 +82,8 @@ if __name__ == '__main__':
 		# relation2id.json is needed in neural models
 		if split == 'train':
 			rel2id_outfile = os.path.join(opt['in_dir'], 'relation2id.json')
+			print(rel_list)
+			rel_list[0] = 'no_relation'
 			d = {item: idx for idx, item in enumerate(rel_list)}
 			with open(rel2id_outfile, 'w') as fout:
 				json.dump(d, fout)
