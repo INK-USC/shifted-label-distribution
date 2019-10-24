@@ -6,7 +6,7 @@ _Todo: Briefly introduce our findings here._
 
 - [Environment Setup](#environment-setup)
 - [Download and Pre-processing](#download-and-pre-processing)
-- [Models](#models)
+- [Running Instructions](#running-instructions)
 
 ### Environment Setup
 We set up our environment in Anaconda (version: 5.2.0, build: py36_3) with the following commands.
@@ -27,7 +27,7 @@ source deactivate
 Please check data download and pre-processing instructions in each data directory in `./data`. Also, check [this](data/neural/vocab/README.md) to download our processed word embeddings and word2id file.
 
 
-### Models
+### Running Instructions
 
 Click on the model name to see the instructions on how to run each model.
 
@@ -43,5 +43,5 @@ Run `conda activate shifted` first to activate the environment for feature-based
 
 Run `conda activate shifted-neural` first to activate the environment for neural models.
 
-1. [Bi-GRU / Bi-LSTM / PCNN / CNN](neural/README.md)
-2. [Bi-GRU + ATT / PCNN + ATT](neuralATT/README.md)
+1. [Bi-GRU / Bi-LSTM / PCNN / CNN](Neural/README.md)
+2. [Bi-GRU + ATT / PCNN + ATT](NeuralATT/README.md)

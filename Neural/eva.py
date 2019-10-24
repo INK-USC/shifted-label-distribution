@@ -17,15 +17,15 @@ import random
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--save_dir', type=str, default='./dumped_models', help='Root dir for saving models.')
-parser.add_argument('--info', type=str, default='KBP_default', help='Optional info for the experiment.')
-parser.add_argument('--repeat', type=int, default=5, help='Train the model for multiple times.')
+parser.add_argument('--info', type=str, default='KBP_default', help='description, also used as filename to save model.')
+parser.add_argument('--repeat', type=int, default=5, help='test the model for multiple trains.')
 # if info == 'KBP_default' and repeat == 5, we will evaluate 5 models 'KBP_default_1' ... 'KBP_default_5'
 
 parser.add_argument('--thres_ratio', type=float, default=0.2, help='proportion of data to tune thres.')
 parser.add_argument('--bias_ratio', type=float, default=0.2, help='proportion of data to estimate bias.')
 parser.add_argument('--cvnum', type=int, default=100, help='# samples to tune thres or estimate bias')
 
-parser.add_argument('--fix_bias', dest='fix_bias', action='store_true', help='Train model with fix bias.')
+parser.add_argument('--fix_bias', dest='fix_bias', action='store_true', help='test model with fix bias (not fixed by default).')
 parser.set_defaults(fix_bias=False)
 
 args_new = parser.parse_args()
@@ -114,4 +114,22 @@ for runid in range(1, args.repeat + 1):
 		print('Test loss %.4f, Precision %.4f, Recall %.4f, F1 %.4f' % (test_loss, prec, recall, f1))
 
 	else:
-		print('Evaluating fix bias.')
+		results = []
+		for j in tqdm(range(args_new.cvnum)):
+			# splitting test set into clean dev and actual test
+			cdev_dset, test_dset = utils.get_cv_dataset(test_filename, args, word2id, device, rel2id,
+													   dev_ratio=args_new.thres_ratio)
+			cdev_lp = torch.from_numpy(cdev_dset.log_prior).to(device)
+			bias_old = model.get_bias()
+			bias_new = cdev_lp
+			if j==0:
+				print(bias_old)
+				print(bias_new)
+			model.set_bias(bias_new)
+			test_loss, (prec, recall, f1) = model.eval(test_dset)
+			results.append((test_loss, prec, recall, f1))
+			model.set_bias(bias_old)
+		results = np.array(results, dtype=np.float32)
+		test_loss, prec, recall, f1 = np.mean(results, axis=0)
+		print('Fix bias:')
+		print('Test loss %.4f, Precision %.4f, Recall %.4f, F1 %.4f' % (test_loss, prec, recall, f1))
