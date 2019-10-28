@@ -1,17 +1,10 @@
-Code for EMNLP 2019 paper "Looking Beyond Label Noise: Shifted Label Distribution Matters in Distantly Supervised Relation Extraction" [[Link]](https://arxiv.org/abs/1904.09331)
-
-<p align="center"><img width="70%" src="overview.png"/></p>
-
-__Brief introduction__: We observed __diminishing phenomenon__ in model performance (i.e., neural models outperform feature-based models by a lot on human-annoated dataset, but the gap diminishes on DS datasets.)
-In addtion, we found two __heuristic threshold__ techniques to be effective on DS datasets.
-These observation leads to __shifted label distribution__, an important yet long-overlooked issue in DSRE.
-We further introduced __bias adjustment__ to adapt a trained model along such shift explicitly.
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 
-__Repository Highlight__: 
-We release code and provide detailed instructions for all models used in the paper, 
-including feature-based models (ReHession, CoType and Logistic Regression) 
-and neural models (Bi-GRU, Bi-LSTM, PCNN, CNN, PositionAware LSTM, Bi-GRU+ATT, PCNN+ATT). 
+<h1 align="center">Shifted Label Distribution Matters</h1>
+<h5 align="center">Looking Beyond Label Noise in Distantly Supervised Relation Extraction</h5>
+
+TL;DL We identify __shifted label distribution__, an important yet long-overlooked issue in DSRE; introduce a simple yet effective __bias adjustment__ to adapt a trained model along such shift explicitly; release a RE codebase. 
 
 ### Content
 
@@ -26,6 +19,20 @@ and neural models (Bi-GRU, Bi-LSTM, PCNN, CNN, PositionAware LSTM, Bi-GRU+ATT, P
         - [Bi-GRU / Bi-LSTM / PCNN / CNN / PositionAware-LSTM](Neural/README.md)
         - [Bi-GRU+ATT / PCNN+ATT](NeuralATT/README.md)
 - [Reference](#reference)
+
+
+<p align="center"><img width="70%" src="overview.png"/></p>
+
+__Brief introduction__: We observed __diminishing phenomenon__ in model performance (i.e., neural models outperform feature-based models by a lot on human-annoated dataset, but the gap diminishes on DS datasets.)
+In addtion, we found two __heuristic threshold__ techniques to be effective on DS datasets.
+These observation leads to __shifted label distribution__, an important yet long-overlooked issue in DSRE.
+We further introduced __bias adjustment__ to adapt a trained model along such shift explicitly.
+
+
+__Repository Highlight__: 
+We release code and provide detailed instructions for all models used in the paper, 
+including feature-based models (ReHession, CoType and Logistic Regression) 
+and neural models (Bi-GRU, Bi-LSTM, PCNN, CNN, PositionAware LSTM, Bi-GRU+ATT, PCNN+ATT). 
 
 ### Environment Setup
 We set up our environment in Anaconda3 (version: 5.2.0, build: py36_3) with the following commands.
