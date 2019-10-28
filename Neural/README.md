@@ -33,7 +33,14 @@ python Neural/eva.py --repeat 1
 KBP (PA-LSTM)
 
 ```
-python Neural/train.py --model palstm --repeat 1 --info pa_lstm_test --in_drop 0.5 --intra_drop 0.1 --out_drop 0.5
+python Neural/train.py --model palstm --repeat 1 --info palstm_kbp --in_drop 0.5 --intra_drop 0.1 --out_drop 0.5
+python Neural/eva.py --repeat 1 --info palstm_kbp
+```
+
+TACRED (PA-LSTM)
+```
+python Neural/train.py --model palstm --repeat 1 --info palstm_tacred --in_drop 0.7 --intra_drop 0.1 --out_drop 0.7 --data_dir data/neural/TACRED
+python Neural/eva.py --repeat 1 --info palstm_tacred
 ```
 
 ### Acknowledgment
