@@ -1,11 +1,11 @@
 Code for EMNLP 2019 paper "Looking Beyond Label Noise: Shifted Label Distribution Matters in Distantly Supervised Relation Extraction" [[Link]](https://arxiv.org/abs/1904.09331)
 
-_Todo: Place an overview figure here._
+<p align="center"><img width="100%" src="overview.png"/></p>
 
 __Brief introduction__: We observed __diminishing phenomenon__ in model performance (i.e., neural models outperform feature-based models by a lot on human-annoated dataset, but the gap diminishes on DS datasets.)
 In addtion, we found two __heuristic threshold__ techniques to be effective on DS datasets.
 These observation leads to __shifted label distribution__, an important yet long-overlooked issue in DSRE.
-We further introduced __bias adjustment__ to adjust a trained model along such shift explicitly.
+We further introduced __bias adjustment__ to adapt a trained model along such shift explicitly.
 
 
 __Repository Highlight__: 

@@ -1,1 +1,1 @@
-Download [vocab.pkl](https://drive.google.com/a/usc.edu/file/d/1Pqo0o3dHo29KaKQSuwdwTRdbO05pa5SG/view?usp=sharing) and [embedding.npy](https://drive.google.com/a/usc.edu/file/d/1Qo_inAs23JI0IRCaLyTDF3Jx1Lf24iMb/view?usp=sharing) and place in this folder.
+Download `vocab.pkl` and `embedding.npy` from [here](https://drive.google.com/drive/folders/1VndcErHKSnUTHPlVRsKUzjTFEjx4GmDW?usp=sharing) and place in this folder.
