@@ -5,7 +5,7 @@ You can select dataset, set hyperparameters, choose the way to handle bias term 
 ``` 
 train.py
 --data_dir DATA_DIR   specify dataset with directory.
---model MODEL         model name, (cnn|pcnn|bgru|lstm).
+--model MODEL         model name, (cnn|pcnn|bgru|lstm|palstm).
 --fix_bias            Train model with fix bias (not fixed by default).
 --repeat REPEAT       train the model for multiple times.
 --info INFO           description, also used as filename to save model.
@@ -24,9 +24,18 @@ test.py
 
 ### Example Usage
 
-KBP (Using default args)
+KBP (Bi-GRU)
 ```
 python Neural/train.py --repeat 1
 python Neural/eva.py --repeat 1
 ```
 
+KBP (PA-LSTM)
+
+```
+python Neural/train.py --model palstm --repeat 1 --info pa_lstm_test --in_drop 0.5 --intra_drop 0.1 --out_drop 0.5
+```
+
+### Acknowledgment
+
+Code for Postion-aware LSTM is modified based on [yuhaozhang/tacred-relation](https://github.com/yuhaozhang/tacred-relation).

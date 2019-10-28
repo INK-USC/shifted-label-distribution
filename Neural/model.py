@@ -12,7 +12,7 @@ import random
 import torch.optim.lr_scheduler as lr_scheduler
 
 import utils
-from models.position_aware_lstm import PositionAwareLSTM
+from models.palstm import PositionAwareRNN
 from models.bgru import BGRU
 from models.cnn import CNN
 from models.pcnn import PCNN
@@ -30,7 +30,7 @@ class Model(object):
 		self.rel2id = rel2id
 		self.max_grad_norm = args.max_grad_norm
 		if args.model == 'pa_lstm':
-			self.model = PositionAwareLSTM(args, rel2id, word_emb)
+			self.model = PositionAwareRNN(args, rel2id, word_emb)
 		elif args.model == 'bgru':
 			self.model = BGRU(args, rel2id, word_emb)
 		elif args.model == 'cnn':

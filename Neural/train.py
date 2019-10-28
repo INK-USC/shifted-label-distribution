@@ -72,11 +72,11 @@ def train(args):
 if __name__ == '__main__':
 
 	parser = argparse.ArgumentParser()
-	parser.add_argument('--data_dir', type=str, default='data/neural/KBP')
-	parser.add_argument('--vocab_dir', type=str, default='data/neural/vocab')
+	parser.add_argument('--data_dir', type=str, default='data/neural/KBP', help='specify dataset with directory')
+	parser.add_argument('--vocab_dir', type=str, default='data/neural/vocab', help='directory storing word2id file and word embeddings.')
 
 	# Model Specs
-	parser.add_argument('--model', type=str, default='bgru', help='model name, cnn/pcnn/bgru/lstm')
+	parser.add_argument('--model', type=str, default='bgru', help='model name, (cnn|pcnn|bgru|lstm|palstm)')
 
 	parser.add_argument('--emb_dim', type=int, default=300, help='Word embedding dimension.')
 	parser.add_argument('--ner_dim', type=int, default=30, help='NER embedding dimension.')
@@ -92,7 +92,7 @@ if __name__ == '__main__':
 	parser.set_defaults(bidirectional=True)
 	parser.add_argument('--bias', dest='bias', action='store_true', help='Whether Bias term is used for linear layer.')
 	parser.set_defaults(bias=True)
-	parser.add_argument('--fix_bias', dest='fix_bias', action='store_true', help='Train model with fix bias.')
+	parser.add_argument('--fix_bias', dest='fix_bias', action='store_true', help='Train model with fix bias (not fixed by default).')
 	parser.set_defaults(fix_bias=False)
 
 	# Data Loading & Pre-processing
@@ -117,9 +117,11 @@ if __name__ == '__main__':
 
 	# Other options
 	parser.add_argument('--seed', type=int, default=7698)
-	parser.add_argument('--repeat', type=int, default=5, help='Train the model for multiple times.')
+	parser.add_argument('--repeat', type=int, default=5, help='train the model for multiple times.')
 	parser.add_argument('--save_dir', type=str, default='./dumped_models', help='Root dir for saving models.')
-	parser.add_argument('--info', type=str, default='KBP_default', help='Optional info for the experiment.')
+	parser.add_argument('--info', type=str, default='KBP_default', help='description, also used as filename to save model.')
+	parser.add_argument('--cuda', type=bool, default=torch.cuda.is_available())
+	parser.add_argument('--cpu', action='store_true', help='Ignore CUDA.')
 
 	args = parser.parse_args()
 
@@ -146,7 +148,9 @@ if __name__ == '__main__':
 	args.vocab_size = len(vocab)
 	niter = args.num_epoch
 
-	device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+	if args.cpu:
+		args.cuda = False
+	device = torch.device("cuda:0" if args.cuda else "cpu")
 	print('Using device: %s' % device.type)
 
 	# Load data.
