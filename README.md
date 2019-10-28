@@ -71,7 +71,7 @@ Please cite the following paper if you find the paper and the code to be useful.
 @inproceedings{ye2019shifted,
  title={Looking Beyond Label Noise: Shifted Label Distribution Matters in Distantly Supervised Relation Extraction},
  author={Ye, Qinyuan and Liu, Liyuan and Zhang, Maosen and Ren, Xiang},
- booktitle={Proc. EMNLP},
+ booktitle={Proc. of EMNLP-IJCNLP},
  year={2019}
 }
 ```
